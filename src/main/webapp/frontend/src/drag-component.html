@@ -1,0 +1,71 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="drag-component">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                position: relative;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: blueviolet;
+                height: 300px;
+                width: 300px;
+                overflow: hidden;
+            }
+            .parent {
+
+            }
+        </style>
+        <div class="parent" on-mousedown="mouseDown" on-mousemove="mouseMove" on-mouseup="mouseUp">
+            <canvas id="contentId" class="content"></canvas>
+        </div>
+
+    </template>
+
+    <script>
+        class DragComponent extends Polymer.Element {
+            static get is() {
+                return 'drag-component';
+            }
+
+            static get properties() {
+                return {
+                    inDrag: {
+                        type: Boolean,
+                        value: false
+                    }
+                };
+            }
+
+            connectedCallback() {
+                super.connectedCallback();
+                var ctx=this.$.contentId.getContext("2d");
+                ctx.beginPath();
+                ctx.arc(300,75,50,0,2*Math.PI);
+                ctx.stroke();
+
+            }
+            mouseDown(event) {
+                debugger;
+                event.preventDefault();
+                event.stopPropagation();
+                this.set("inDrag", true);
+            }
+
+            mouseMove(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            mouseUp(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.set("inDrag", false);
+
+            }
+        }
+        customElements.define(DragComponent.is, DragComponent);
+    </script>
+</dom-module>
